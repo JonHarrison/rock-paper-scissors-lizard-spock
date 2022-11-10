@@ -9,9 +9,9 @@ var userScore = 0; // increments each time the user wins
 var computerScore = 0; // increments each time the computer wins
 
 const outcome = { computerWins: "You LOST", userWins: "You WON", draw: "You DREW" };
-var result;
 
-var reason;
+var result; // win, lose or draw
+var reason; // the reason why
 
 // get user guess from radio box group userGuess
 function userGuess() {
@@ -40,7 +40,7 @@ function computerGuess() {
     return guess;
 }
 
-
+// evaluate the outcome of this game
 function evaluate(user, computer) {
     if (debug > 1) console.log("evaluate(" + user + "," + computer + ")");
 
@@ -200,6 +200,7 @@ function evaluate(user, computer) {
     if (debug > 0) console.log("Result " + result + " because " + reason);
 }
 
+// update score
 function updateScore() {
     switch (result) {
         case outcome.userWins:
@@ -219,16 +220,19 @@ function updateScore() {
     document.getElementById("computerScore").innerText = computerScore;
 }
 
+// let the user know what the computer chose
 function updateComputerGuess(computer) {
     if (debug > 1) console.log("updateComputerGuess()");
     document.getElementById("computerGuess").innerText = computer;
 }
 
+// update the outcome of the game
 function updateResult() {
     if (debug > 1) console.log("updateResult()");
     document.getElementById("result").innerText = result + " because " + reason;
 }
 
+// entry point
 function runGame() {
     if (debug > 1) console.log("Rock Paper Scissors Lizard Spock Game");
     var user = userGuess();
