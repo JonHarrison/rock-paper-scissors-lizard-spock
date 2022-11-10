@@ -219,6 +219,11 @@ function updateScore() {
     document.getElementById("computerScore").innerText = computerScore;
 }
 
+function updateComputerGuess(computer) {
+    if (debug > 1) console.log("updateComputerGuess()");
+    document.getElementById("computerGuess").innerText = computer;
+}
+
 function updateResult() {
     if (debug > 1) console.log("updateResult()");
     document.getElementById("result").innerText = result + " because " + reason;
@@ -228,6 +233,7 @@ function runGame() {
     if (debug > 1) console.log("Rock Paper Scissors Lizard Spock Game");
     var user = userGuess();
     var computer = computerGuess();
+    updateComputerGuess(computer);
     evaluate(user, computer);
     updateScore();
     updateResult();
