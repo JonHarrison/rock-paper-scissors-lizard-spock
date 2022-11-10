@@ -1,23 +1,17 @@
-console.log("Rock Paper Scissors Lizard Spock Game");
+"use strict";
 
-var guesses = ["rock", "paper", "scissors", "lizard", "spock"];
+var debug = 0;
+
 var userScore = 0;
 var computerScore = 0;
+var result;
+var reason;
 
-function updateResult() {
-    document.getElementById("result").innerHTMLelement[i] = " YOU LOST!";
-}
+var outcome = { computerWins:"You LOST", userWins: "You WON", draw: "You DREW" };
 
-function computerGuess() {
-    var val = Math.floor(Math.random() * guesses.length);
-    // console.log("guess is " + guess);
-    var guess = guesses[val];
-    console.log("computer has guessed " + guess);
-    return guess;
-}
-
+// get user guess from radio box group userGuess
 function userGuess() {
-    console.log("userGuess()");
+    if (debug > 1) console.log("userGuess()");
 
     var element = document.getElementsByName("userGuess");
     var guess = 0;
@@ -28,99 +22,174 @@ function userGuess() {
             break;
         }
     }
-    console.log("user has guessed " + guess);
+    if (debug > 0) console.log("user     : " + guess);
     return guess;
 }
 
+// get computer guess randomly
+function computerGuess() {
+    if (debug > 1) console.log("userGuess()");
+    var guesses = ["rock", "paper", "scissors", "lizard", "spock"];
+    var val = Math.floor(Math.random() * guesses.length);
+    var guess = guesses[val];
+    if (debug > 0) console.log("computer : " + guess);
+    return guess;
+}
+
+
 function evaluate(user, computer) {
-    var result;
-    var reason;
-    console.log("evaluate");
+    if (debug > 1) console.log("evaluate(" + user + "," + computer + ")");
+
+
     if (user === computer) {
-        result = "Draw";
+        result = outcome.draw;
         reason = "you both made the same guess";
     }
     else {
         switch (user) {
             case "rock":
                 if (computer == "scissors") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "rock blunts scissors";
                 }
                 else if (computer == "lizard") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "rock crushes lizard";
                 }
-                else { result = "Computer Won"; }
-                break;
-            case "paper":
-                if (computer == "rock") {
-                    result = "You Won";
+                else if (computer == "paper") {
+                    result = outcome.computerWins;
                     reason = "paper wraps rock";
                 }
                 else if (computer == "spock") {
-                    result = "You Won";
+                    result = outcome.computerWins;
+                    reason = "Spock vaporises rock";
+                }
+                else {
+                    console.log("Unexpected result");
+                }
+                break;
+            case "paper":
+                if (computer == "rock") {
+                    result = outcome.userWins;
+                    reason = "paper wraps rock";
+                }
+                else if (computer == "spock") {
+                    result = outcome.userWins;
                     reason = "paper disproves spock";
                 }
-                else { result = "Computer Won"; }
+                else if (computer == "scissors") {
+                    result = outcome.computerWins;
+                    reason = "scissors cuts paper";
+                }
+                else if (computer == "lizard") {
+                     result = outcome.computerWins;
+                     reason = "lizard eats paper";   
+                }
+                else {
+                    console.log("Unexpected result");
+                }
                 break;
             case "scissors":
                 if (computer == "paper") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "scissors cuts paper";
                 }
-                if (computer == "lizard") {
-                    result = "You Won";
+                else if (computer == "lizard") {
+                    result = outcome.userWins;
                     reason = "scissors decapitates lizard";
                 }
-                else { result = "Computer Won"; }
+                else if (computer == "rock") {
+                    result = outcome.computerWins;
+                    reason = "rock blunts scissors";
+                }
+                else if (computer == "spock") {
+                    result = outcome.computerWins;
+                    reason = "Spock vaporises scissors";
+                }
+                else {
+                    console.log("Unexpected result");
+                }
                 break;
             case "lizard":
                 if (computer == "paper") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "lizard eats paper";
                 }
                 else if (computer == "spock") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "lizard poisons Spock";
                 }
-                else { result = "Computer Won"; }
+                else if (computer == "rock") {
+                    result = outcome.computerWins;
+                    reason = "rock crushes lizard";
+                }
+                else if (computer == "scissors") {
+                    result = outcome.computerWins;
+                    reason = "scissors decapitates lizard";
+                }
+                else {
+                    console.log("Unexpected result");
+                }
                 break;
             case "spock":
                 if (computer == "scissors") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "Spock smashes scissors";
                 }
                 else if (computer == "rock") {
-                    result = "You Won";
+                    result = outcome.userWins;
                     reason = "Spock vapourises rock";
                 }
-                else { result = "Computer Won"; }
+                else if (computer == "paper") {
+                    result = outcome.computerWins;
+                    reason = "paper disproves Spock";
+                }
+                else if (computer == "lizard") {
+                    result = outcome.computerWins;
+                    reason = "lizard poisons Spock";
+                }
+                else {
+                    console.log("Unexpected result");
+                }
                 break;
             default:
                 console.log("Hmm, we shouldn't be here!");
                 break;
         }
     }
+
+    if (debug > 0) console.log("Result " + result + " because " + reason);
+}
+
+function updateScore() {
     switch(result) {
-        case "You Won":
+        case outcome.userWins:
             userScore++;
             break;
-        case "Computer Won":
+        case outcome.computerWins:
             computerScore++;
             break;
-        case "Draw":
+        case outcome.draw:
             // nothing to do 
             break;
         default:
             console.log("Hmm, we shouldn't be here!");
             break;           
     }
-    console.log("Result " + result + " because " + reason);
+    document.getElementById("userScore").innerText = userScore;
+    document.getElementById("computerScore").innerText = computerScore;
+}
+
+function updateResult() {
+    if (debug > 1) console.log("updateResult()");
+    document.getElementById("result").innerText = result + " because " + reason;
 }
 
 function runGame() {
+    if (debug > 1) console.log("Rock Paper Scissors Lizard Spock Game");
     var user = userGuess();
     var computer = computerGuess();
     evaluate(user, computer);
+    updateScore();
+    updateResult();
 }
