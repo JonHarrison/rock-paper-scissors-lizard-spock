@@ -35,3 +35,8 @@ SO THAT I can challenge myself and develop my skills<br>
 - HTML
 - Bootstrap 5
 - Javascript
+
+## Website image
+
+![Rock Paper Scissors Lizard Spock](https://user-images.githubusercontent.com/1043077/218062967-40aba67d-c8b5-4aa5-9df2-969d7592737d.png)
+
